@@ -21,9 +21,11 @@ public class Main {
   private static int[][] readIntMatrix(Path source, Pattern delimiter) 
       throws IOException {
     return Files.lines(source)
+        .parallel()
+        .map(String::trim)
         .map((line) -> delimiter.splitAsStream(line)
-                .mapToInt(Integer::parseInt)
-                .toArray())
+            .mapToInt(Integer::parseInt)
+            .toArray())
         .toArray(int[][]::new);
   }
   
