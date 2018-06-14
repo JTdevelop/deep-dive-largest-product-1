@@ -22,10 +22,9 @@ public class Main {
       throws IOException {
     return Files.lines(source)
         .map((line) -> delimiter.splitAsStream(line)
-                .mapToInt((value) -> Integer.parseInt(value))
+                .mapToInt(Integer::parseInt)
                 .toArray())
-        .collect(Collectors.toList())
-        .toArray(new int[0][]);
+        .toArray(int[][]::new);
   }
   
 }
