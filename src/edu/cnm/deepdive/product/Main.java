@@ -9,6 +9,7 @@ import java.util.function.Function;
 import java.util.function.ToIntFunction;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main {
 
@@ -20,13 +21,15 @@ public class Main {
 
   private static int[][] readIntMatrix(Path source, Pattern delimiter) 
       throws IOException {
-    return Files.lines(source)
-        .parallel()
-        .map(String::trim)
-        .map((line) -> delimiter.splitAsStream(line)
-            .mapToInt(Integer::parseInt)
-            .toArray())
-        .toArray(int[][]::new);
+    try (Stream<String> stream = Files.lines(source)) {
+      return stream
+          .parallel()
+          .map(String::trim)
+          .map((line) -> delimiter.splitAsStream(line)
+              .mapToInt(Integer::parseInt)
+              .toArray())
+          .toArray(int[][]::new);
+    }
   }
   
 }
